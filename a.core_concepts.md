@@ -21,12 +21,9 @@ kubectl create namespace mynamespace
 kubectl run nginx --image=nginx --restart=Never -n mynamespace
 ```
 
-</p>
-</details>
+Optput:
 
-<output><summary>show</summary>
-<p>
-  ```
+```
   vagrant@k8s-controller:~$ kubectl run nginx --image=nginx --restart=Never -n mynamespace
 pod/nginx created
 vagrant@k8s-controller:~$ k get namespaces
