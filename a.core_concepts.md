@@ -24,6 +24,28 @@ kubectl run nginx --image=nginx --restart=Never -n mynamespace
 </p>
 </details>
 
+<output><summary>show</summary>
+<p>
+  ```
+  vagrant@k8s-controller:~$ kubectl run nginx --image=nginx --restart=Never -n mynamespace
+pod/nginx created
+vagrant@k8s-controller:~$ k get namespaces
+NAME              STATUS   AGE
+default           Active   5d11h
+kube-node-lease   Active   5d11h
+kube-public       Active   5d11h
+kube-system       Active   5d11h
+mynamespace       Active   19m
+vagrant@k8s-controller:~$ k get pods
+NAME         READY   STATUS    RESTARTS      AGE
+omps-nginx   1/1     Running   1 (13h ago)   4d20h
+vagrant@k8s-controller:~$ k get pods -n mynamespace
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          28s
+
+</p>
+</details>
+
 ### Create the pod that was just described using YAML
 
 <details><summary>show</summary>
@@ -63,12 +85,44 @@ status: {}
 kubectl create -f pod.yaml
 ```
 
+if the pod already exists the create operation will fail with following error
+<i>Error from server (AlreadyExists): error when creating "pod.yaml": pods "nginx" already exists</i>
+
+alternate command.
+```bash
+kubectl apply -f pod.yaml
+```
+
+If the pod already exisit the apply operation will warn with following messages, however will run the apply operation on the running pod.
+<i>Warning: resource pods/nginx is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is req
+uired by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl creat
+e --save-config or kubectl apply. The missing annotation will be patched automatically.</i>
+
+In case there is no pod, the apply command will create the pods.
+
+you can delete the pod using
+
+```bash
+kubectl delete pod nginx -n mynamespace
+```
+
+and then re-run the kubectl apply or create command.
+
 Alternatively, you can run in one line
 
 ```bash
 kubectl run nginx --image=nginx --restart=Never --dry-run=client -o yaml | kubectl create -n mynamespace -f -
 ```
 
+</p>
+</details>
+
+#### Delete a pod
+<details><summary>show</summary>
+<p>
+```bash
+kubectl delete pod nginx -n mynamespace
+```
 </p>
 </details>
 
