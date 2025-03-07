@@ -42,7 +42,7 @@ omps-nginx   1/1     Running   1 (13h ago)   4d20h
 vagrant@k8s-controller:~$ k get pods -n mynamespace
 NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          28s
-
+```
 </p>
 </details>
 
